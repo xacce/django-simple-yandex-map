@@ -1,6 +1,4 @@
 from django.db import models
-from django.forms.fields import CharField
-from django_ymap.widgets import YmapCoordFieldWidget
 
 
 class YmapCoord(models.CharField):
@@ -9,8 +7,6 @@ class YmapCoord(models.CharField):
         super(YmapCoord, self).__init__(**kwargs)
 
     def formfield(self, **kwargs):
-        # defaults = {'form_class': YmapCoordFormField}
-        # defaults.update(kwargs)
         kwargs['widget'] = kwargs['widget'](attrs={
             "data-start_query": self.start_query,
             "data-size_width": self.size_width,
