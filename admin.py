@@ -3,8 +3,8 @@ class YmapAdmin(object):
         from django_ymap.fields import YmapCoord
         from django_ymap.widgets import YmapCoordFieldWidget
 
-        request = kwargs.pop("request", None)
         if isinstance(db_field, YmapCoord):
             kwargs['widget'] = YmapCoordFieldWidget
 
-        return db_field.formfield(**kwargs)
+        field = super(YmapAdmin, self).formfield_for_dbfield(db_field, **kwargs)
+        return field

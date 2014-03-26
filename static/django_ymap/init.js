@@ -72,7 +72,9 @@ function django_ymap_change_mark(input, coords, title) {
 }
 
 function django_ymap_set_center_by_query(query, map) {
+
     ymaps.geocode(query, { results: 1 }).then(function (res) {
+
         var coords = res.geoObjects.get(0).geometry.getCoordinates();
         var firstGeoObject = res.geoObjects.get(0);
         map.setBounds(firstGeoObject.properties.get('boundedBy'));
