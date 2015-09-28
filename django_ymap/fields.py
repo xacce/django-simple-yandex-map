@@ -31,6 +31,15 @@ class YmapCoord(models.CharField):
             return ('django_ymap.fields.YmapCoord', args, kwargs)
         except ImportError:
             pass
+
+
+    def deconstruct(self):
+        name, path, args, kwargs = super(YmapCoord, self).deconstruct()
+        del kwargs["start_query"]
+        del kwargs["size_width"]
+        del kwargs["size_height"]
+        return name, path, args, kwargs
+
 try:
     from south.modelsinspector import add_introspection_rules
     add_introspection_rules([], ["^django_ymap\.fields\.YmapCoord"])
