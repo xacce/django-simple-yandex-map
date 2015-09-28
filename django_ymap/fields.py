@@ -39,7 +39,7 @@ class YmapCoord(models.CharField):
             del kwargs["start_query"]
         if 'size_width' in kwargs:
             del kwargs["size_width"]
-        if 'size_height':
+        if 'size_height' in kwargs:
             del kwargs["size_height"]
         return name, path, args, kwargs
 
