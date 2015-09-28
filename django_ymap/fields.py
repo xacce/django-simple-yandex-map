@@ -35,9 +35,12 @@ class YmapCoord(models.CharField):
 
     def deconstruct(self):
         name, path, args, kwargs = super(YmapCoord, self).deconstruct()
-        del kwargs["start_query"]
-        del kwargs["size_width"]
-        del kwargs["size_height"]
+        if "start_query" in kwargs:
+            del kwargs["start_query"]
+        if 'size_width' in kwargs:
+            del kwargs["size_width"]
+        if 'size_height':
+            del kwargs["size_height"]
         return name, path, args, kwargs
 
 try:
