@@ -1,8 +1,9 @@
+#* coding: utf-8
 from django.db import models
 
 
 class YmapCoord(models.CharField):
-    def __init__(self, start_query, size_width=500, size_height=500, **kwargs):
+    def __init__(self, start_query=u'Россия', size_width=500, size_height=500, **kwargs):
         self.start_query, self.size_width, self.size_height = start_query, size_width, size_height
         super(YmapCoord, self).__init__(**kwargs)
 
@@ -31,6 +32,18 @@ class YmapCoord(models.CharField):
             return ('django_ymap.fields.YmapCoord', args, kwargs)
         except ImportError:
             pass
+
+
+    def deconstruct(self):
+        name, path, args, kwargs = super(YmapCoord, self).deconstruct()
+        if "start_query" in kwargs:
+            del kwargs["start_query"]
+        if 'size_width' in kwargs:
+            del kwargs["size_width"]
+        if 'size_height' in kwargs:
+            del kwargs["size_height"]
+        return name, path, args, kwargs
+
 try:
     from south.modelsinspector import add_introspection_rules
     add_introspection_rules([], ["^django_ymap\.fields\.YmapCoord"])
