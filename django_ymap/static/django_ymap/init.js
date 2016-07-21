@@ -1,52 +1,52 @@
 (function ($) {
     $(function () {
 
-        var i = 0
+        var i = 0;
         $('.ymap_field').each(function () {
-            var input = $(this)
+            var input = $(this);
 
-            var ymap_div = $('<div style="float:left"></div>').attr('id', 'ymap_' + i)
-            input.data('ymap_div', ymap_div)
+            var ymap_div = $('<div style="float:left"></div>').attr('id', 'ymap_' + i);
+            input.data('ymap_div', ymap_div);
 
-            q = ymap_div.insertAfter(input)
-            q.css({'width': parseInt(input.attr('data-size_width')), 'height': parseInt(input.attr('data-size_height'))})
-            init_map(input)
-            i++
+            q = ymap_div.insertAfter(input);
+            q.css({'width': parseInt(input.attr('data-size_width')), 'height': parseInt(input.attr('data-size_height'))});
+            init_map(input);
+            i++;
         })
     })
-})(django.jQuery)
+})(django.jQuery);
 
 function init_map(input) {
     ymaps.ready(function () {
 
         var map = new ymaps.Map(input.data('ymap_div').attr('id'), {
             center: [41, 82],
-            zoom: 1
+            zoom: 13
         });
-        var searchControl = new ymaps.control.SearchControl({noPlacemark: true});
 
-        map.controls
-            .add('zoomControl')
-            .add('typeSelector')
-            .add('smallZoomControl', { right: 5, top: 75 })
-            .add('mapTools')
-            .add(searchControl);
+        var searchControl = new ymaps.control.SearchControl({
+            options: {
+                noPlacemark: true
+            }
+        });
+
+        map.controls.add(searchControl);
 
         map.events.add('click', function (e) {
-            var coords = e.get('coordPosition')
+            var coords = e.get('coords');
             django_ymap_change_mark(input, coords)
 
         });
 
-        input.data("ymap", map)
+        input.data("ymap", map);
         if (input.val().length < 1) {
             django_ymap_set_center_by_query(input.attr('data-start_query'), map)
         }
         else {
-            var currcord = input.val().split(',')
-            currcord = [parseFloat(currcord[0]), parseFloat(currcord[1])]
-            django_ymap_set_center_by_coords(currcord, map)
-            django_ymap_change_mark(input, currcord)
+            var currcord = input.val().split(',');
+            currcord = [parseFloat(currcord[0]), parseFloat(currcord[1])];
+            django_ymap_set_center_by_coords(currcord, map);
+            django_ymap_change_mark(input, currcord);
         }
     });
 
@@ -55,18 +55,19 @@ function init_map(input) {
 function django_ymap_set_center_by_coords(coords, map) {
 
     map.zoomRange.get(coords).then(function (range) {
-        map.setCenter(coords, range[1])
+        map.setCenter(coords, range[13])
     })
 }
 
 function django_ymap_change_mark(input, coords, title) {
-    var mark = input.data('ymap_mark')
-    var map = input.data('ymap')
-    if (mark) map.geoObjects.remove(mark)
+    console.log(coords);
+    var mark = input.data('ymap_mark');
+    var map = input.data('ymap');
+    if (mark) map.geoObjects.remove(mark);
 
-    mark = new ymaps.Placemark(coords, {'hintContent': title})
-    map.geoObjects.add(mark)
-    input.data('ymap_mark', mark)
+    mark = new ymaps.Placemark(coords, {'hintContent': title});
+    map.geoObjects.add(mark);
+    input.data('ymap_mark', mark);
 
     input.attr('value', coords.join(','))
 }

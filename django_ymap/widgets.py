@@ -12,4 +12,4 @@ class YmapCoordFieldWidget(TextInput):
         super(YmapCoordFieldWidget, self).__init__(default)
 
     class Media:
-        js = ('http://api-maps.yandex.ru/2.0/?load=package.full&lang=ru-RU', 'django_ymap/init.js')
+        js = ('http://api-maps.yandex.ru/2.1/?lang=ru-RU', 'django_ymap/init.js')
