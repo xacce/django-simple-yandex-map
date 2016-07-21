@@ -21,7 +21,8 @@ function init_map(input) {
 
         var map = new ymaps.Map(input.data('ymap_div').attr('id'), {
             center: [41, 82],
-            zoom: 13
+            zoom: 13,
+            controls: ['zoomControl', 'typeSelector', 'rulerControl']
         });
 
         var searchControl = new ymaps.control.SearchControl({
