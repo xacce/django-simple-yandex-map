@@ -8,7 +8,7 @@ class YmapCoord(models.CharField):
         super(YmapCoord, self).__init__(**kwargs)
 
     def formfield(self, **kwargs):
-        if kwargs.has_key('widget'):
+        if 'widget' in kwargs:
             kwargs['widget'] = kwargs['widget'](attrs={
                 "data-start_query": self.start_query,
                 "data-size_width": self.size_width,
